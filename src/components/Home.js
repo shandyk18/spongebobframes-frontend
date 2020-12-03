@@ -8,18 +8,23 @@ import axios from "axios";
 
 function Home() {
     const [frameId, setFrameId] = useState();
+    const [imgSrc, setImgSrc] = useState();
 
-    // upon load, generate random frame id
-    useEffect(() => {
+    async function getRandomFrame() {
         const frameNum = Math.floor(Math.random() * 2);
-        setFrameId(frameNum);
-    }, []);
+        const response = await axios.get(`http://localhost:5000/frames/${frameNum}`);
+        return response.data[0];
+    }
+
+    useEffect(() => {
+        console.log("src: " + imgSrc);
+    }, [frameId, imgSrc]);
 
     // when button clicked, generates a random frame id
     async function onGenerate() {
-        const frameNum = Math.floor(Math.random() * 2);
-        const response = await axios.get(`http://localhost:5000/frame/${frameNum}`);
-        setFrameId(response.data);
+        const response = await getRandomFrame();
+        setFrameId(response.frameId);
+        setImgSrc(response.image);
     }
 
     return (
@@ -38,8 +43,8 @@ function Home() {
                 <Row className="justify-content-md-center">
                     <img
                         width={1000}
-                        src={rock}
-                        alt="Patrick's House"
+                        src={imgSrc}
+                        alt={imgSrc}
                     />
                 </Row>
                 <br />
