@@ -6,6 +6,8 @@ import Row from 'react-bootstrap/Row';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
 
+import NavigationBar from './NavigationBar';
+
 function Home() {
     const [frameId, setFrameId] = useState();
     const [imgSrc, setImgSrc] = useState();
@@ -55,6 +57,8 @@ function Home() {
 
     return (
         <div>
+            <NavigationBar />
+            <br />           
             <Container fluid="md">
                 <Row className="justify-content-md-center">
                     <h1>Random Spongebob Frames</h1>
