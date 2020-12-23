@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import rock from '../images/rock.jpg';
+//import rock from '../images/rock.jpg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
 
@@ -16,9 +16,35 @@ function Home() {
         return response.data[0];
     }
 
+    function loadFBLogin() {
+        window.fbAsyncInit = function() {
+            window.FB.init({
+            appId            : process.env.FB_APP_ID,
+            autoLogAppEvents : true,
+            xfbml            : true,
+            version          : 'v9.0'
+            });
+        };
+
+        console.log("Loading fb api");
+          // Load the SDK asynchronously
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    }
+
     useEffect(() => {
         console.log("src: " + imgSrc);
     }, [frameId, imgSrc]);
+
+    // load SDK
+    useEffect(() => {
+        loadFBLogin()
+    }, []);
 
     // when button clicked, generates a random frame id
     async function onGenerate() {
@@ -42,9 +68,9 @@ function Home() {
                 <br />
                 <Row className="justify-content-md-center">
                     <img
-                        width={1000}
                         src={imgSrc}
-                        alt={imgSrc}
+                        alt="random frame"
+                        width="1000"
                     />
                 </Row>
                 <br />
