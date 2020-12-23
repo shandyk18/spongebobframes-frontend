@@ -7,5 +7,5 @@ This repo is the front end of the 'Spongebob Frames' project.
 * React Bootstrap
 * Facebook Web SDK
 
-# WIP
+## WIP
 Currently looking into how to supply frames for the web app.
