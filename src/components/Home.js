@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-//import rock from '../images/rock.jpg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
 
@@ -10,11 +9,12 @@ import NavigationBar from './NavigationBar';
 
 function Home() {
     const [frameId, setFrameId] = useState();
-    const [imgSrc, setImgSrc] = useState();
+    const [imgSrc, setImgSrc] = useState("https://i.imgur.com/avClfdP.jpg");
 
     async function getRandomFrame() {
-        const frameNum = Math.floor(Math.random() * 2);
+        const frameNum = Math.floor(Math.random() * 6);
         const response = await axios.get(`http://localhost:5000/frames/${frameNum}`);
+        console.log(response.data);
         return response.data[0];
     }
 
@@ -50,7 +50,10 @@ function Home() {
 
     // when button clicked, generates a random frame id
     async function onGenerate() {
-        const response = await getRandomFrame();
+        let response = undefined;
+        do {
+            response = await getRandomFrame();
+        } while (response === undefined);
         setFrameId(response.frameId);
         setImgSrc(response.image);
     }
@@ -79,9 +82,10 @@ function Home() {
                 </Row>
                 <br />
                 <Row>
-                    <p>frame id: {frameId}</p>
+                    <p>Season 1 Episode 1</p>
                 </Row>
             </Container>
+            <br />
         </div>
     );
 }
