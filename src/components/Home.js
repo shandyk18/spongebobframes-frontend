@@ -8,12 +8,15 @@ import axios from "axios";
 import NavigationBar from './NavigationBar';
 
 function Home() {
-    const [frameId, setFrameId] = useState();
+    const [season, setSeason] = useState(1);
+    const [episode, setEpisode] = useState(1);
+    const [frame, setFrame] = useState(4);
     const [imgSrc, setImgSrc] = useState("https://i.imgur.com/avClfdP.jpg");
 
     async function getRandomFrame() {
-        const frameNum = Math.floor(Math.random() * 6);
-        const response = await axios.get(`http://localhost:5000/frames/${frameNum}`);
+        const frameNum = Math.floor(Math.random() * 4);
+        const response = await axios.get(
+            `http://localhost:5000/frames/${season}/${episode}/${frameNum}`);
         console.log(response.data);
         return response.data[0];
     }
@@ -41,7 +44,7 @@ function Home() {
 
     useEffect(() => {
         console.log("src: " + imgSrc);
-    }, [frameId, imgSrc]);
+    }, [frame, imgSrc]);
 
     // load SDK
     useEffect(() => {
@@ -54,7 +57,9 @@ function Home() {
         do {
             response = await getRandomFrame();
         } while (response === undefined);
-        setFrameId(response.frameId);
+        setSeason(response.season);
+        setEpisode(response.episode);
+        setFrame(response.frame);
         setImgSrc(response.image);
     }
 
@@ -77,12 +82,12 @@ function Home() {
                     <img
                         src={imgSrc}
                         alt="random frame"
-                        width="1000"
+                        width="800"
                     />
                 </Row>
                 <br />
                 <Row>
-                    <p>Season 1 Episode 1</p>
+                    <p>Season {season} Episode {episode} Frame {frame}</p>
                 </Row>
             </Container>
             <br />
