@@ -14,10 +14,9 @@ function Home() {
     const [imgSrc, setImgSrc] = useState("https://i.imgur.com/avClfdP.jpg");
 
     async function getRandomFrame() {
-        const frameNum = Math.floor(Math.random() * 4);
-        const response = await axios.get(
+        const frameNum = Math.floor(Math.random() * 4) + 1;
+        let response = await axios.get(
             `http://localhost:5000/frames/${season}/${episode}/${frameNum}`);
-        console.log(response.data);
         return response.data[0];
     }
 
@@ -42,9 +41,9 @@ function Home() {
         }(document, 'script', 'facebook-jssdk'));
     }
 
-    useEffect(() => {
-        console.log("src: " + imgSrc);
-    }, [frame, imgSrc]);
+    // useEffect(() => {
+    //     console.log(season + " " + episode + " " + frame + " " + imgSrc);
+    // }, [season, episode, frame, imgSrc]);
 
     // load SDK
     useEffect(() => {
@@ -53,10 +52,7 @@ function Home() {
 
     // when button clicked, generates a random frame id
     async function onGenerate() {
-        let response = undefined;
-        do {
-            response = await getRandomFrame();
-        } while (response === undefined);
+        let response = await getRandomFrame();
         setSeason(response.season);
         setEpisode(response.episode);
         setFrame(response.frame);
